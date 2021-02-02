@@ -5,12 +5,13 @@ services:
     build: .
     container_name: test_deploy_web
     command: >
-      sh -c "./wait.sh db:5432 -- python manage.py makemigrations pages
+      sh -c "./wait.sh db:5432 -- python manage.py collectstatic --noinput
+      && python manage.py makemigrations admin auth contenttypes pages sessions
       && python manage.py migrate
       && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./DJangoAPI:/DJangoAPI/
-      - staticfiles:/DJangoAPI/config/static/
+      - staticfiles:/DJangoAPI/config/config/
     expose:
       - 8000
     env_file:
