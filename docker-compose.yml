@@ -6,7 +6,7 @@ services:
     container_name: test_deploy_web
     command: >
       sh -c "./wait.sh db:5432 -- python manage.py collectstatic --noinput
-      && python manage.py makemigrations admin auth contenttypes pages sessions
+      && python manage.py makemigrations admin auth contenttypes pages sessions 
       && python manage.py migrate
       && python manage.py runserver 0.0.0.0:8000"
     volumes:
@@ -32,6 +32,18 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    networks:
+      moco:
+  pgadmin:
+    build: ./pgadmin 
+    depends_on:
+      - db
+    ports:
+      - "5555:5050"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: adamo
+      PGADMIN_DEFAULT_PASSWORD: Badeisubihi1!
+    restart: unless-stopped
     networks:
       moco:
   nginx:
