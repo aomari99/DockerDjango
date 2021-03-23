@@ -50,7 +50,8 @@ services:
     build: ./nginx
     container_name: test_deploy_nginx
     volumes:
-      - staticfiles:/DJangoAPI/config/static/
+      - /home/ubuntu/DockerDjango/DJangoAPI/config/static/:/usr/share/nginx/html/static/
+      - /home/ubuntu/DockerDjango/DJangoAPI/config/static/media/:/usr/share/nginx/html/media/
     ports:
       - 80:80
       - 443:443
@@ -58,6 +59,7 @@ services:
       CERTBOT_EMAIL: mocoworkshop2020@gmail.com
     depends_on:
       - web
+    
     networks:
       moco:
 networks:
